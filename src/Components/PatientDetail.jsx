@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Card, Modal, Form, Input, Row, Col } from 'antd';
+import { Card, Modal, Form, Input, Row, Col, Select } from 'antd';
 
-import '../component/MainContainer.css'
+import './MainContainer.css'
 import {
 
     IdcardFilled,
@@ -13,43 +13,30 @@ import {
 } from '@ant-design/icons';
 
 export default function PatientDetail() {
-    
-    const defaultPatientDetails = { patientName: 'JamesBond', gender: 'Female', bloodGroup: 'AB+', patientAge: '55', patientId: 'PAA008', patientEmail: ' Patient@gmail.com', patientMobile: '8090788453', patientAddress: '10/223 Gt Road Mumbai-29302' }
-    
+
+    const defaultPatientDetails = { patientName: 'JamesBond', gender: 'Female', bloodGroup: 'AB+', patientAge: '55', patientId: 'PAA008', patientEmail: 'Patient@gmail.com', patientMobile: '8090788453', patientAddress: '10/223 Gt Road Mumbai-29302' }
+
     const [PatientDetails, setPatientDetails] = useState(defaultPatientDetails);
-    const [editedPatientDetails, setEditedPatientDetails] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
 
-    
+
 
     const onFinish = (values) => {
-        console.log('hi');
         setIsModalOpen(false)
         console.log(values);
+        setPatientDetails(values)
     }
 
 
     const showModal = () => {
-        // form.resetFields();
-      setEditedPatientDetails(PatientDetails)
         setIsModalOpen(true);
-        // console.log(editedPatientDetails);
     };
     const handleOk = () => {
         form.submit();
-        setPatientDetails(editedPatientDetails)
-        setIsModalOpen(false);
     };
     const handleCancel = () => {
         setIsModalOpen(false);
-    };
-    const onChangeEditDetails = (e) => {
-
-        setEditedPatientDetails({ ...editedPatientDetails, [e.target.name]: e.target.value });
-        // console.log({ [e.target.name]: e.target.value });
-
-
     };
 
 
@@ -60,6 +47,7 @@ export default function PatientDetail() {
             <Modal title="Edit Patient Detail" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     form={form}
+                    initialValues={PatientDetails}
                     autoComplete="off"
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 16 }}
@@ -68,7 +56,7 @@ export default function PatientDetail() {
                     }}
                     onFinish={onFinish}>
                     <Form.Item
-                    name={'hi'}
+                        name='patientName'
                         label="Patient Name"
                         rules={[
                             {
@@ -77,52 +65,71 @@ export default function PatientDetail() {
                             }
                         ]}
                     >
-                        <Input name='patientName' onChange={onChangeEditDetails} value={editedPatientDetails.patientName} />
+                        <Input name='patientName' />
                     </Form.Item>
 
                     <Row>
                         <Col span={8}
-                            style={{ margin: 'auto' }} >
+                           >
                             <Form.Item
                                 name='gender'
                             >
 
-                                <select name="gender" style={Styles.select} onChange={(e) => onChangeEditDetails(e)} >
-                                    <option style={{ color: 'grey' }} disabled value={'gender'}>Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
+                                <Select
+                                    name='gender'
+                                    placeholder='Gender'
+                                    style={{
+                                        width: 100,
+                                    }}
+                                    options={[
+                                        {
+                                            value: 'male',
+                                            label: 'Male',
+                                        },
+                                        {
+                                            value: 'female',
+                                            label: 'Female',
+                                        },
+                                        {
+                                            value: 'other',
+                                            label: 'Other',
+                                        },
+
+                                    ]}
+                                />
+
                             </Form.Item>
                         </Col>
                         <Col span={8}>
 
                             <Form.Item
-                              
+                                name='bloodGroup'
                                 rules={[
                                     {
                                         max: 3,
                                         message: 'Invalid Blood Group'
                                     }
                                 ]}>
-                                <Input placeholder='Blood Group' name='bloodGroup' onChange={(e) => onChangeEditDetails(e)} value={editedPatientDetails.bloodGroup} />
+                                <Input placeholder='Blood Group' name='bloodGroup'  />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
 
                             <Form.Item
+                                name='patientAge'
                                 rules={[
                                     {
                                         max: 2,
                                         message: 'Invalid Age'
                                     }
                                 ]}>
-                                <Input placeholder='Age' name='patientAge' onChange={(e) => onChangeEditDetails(e)} value={editedPatientDetails.patientAge} />
+                                <Input placeholder='Age' name='patientAge'  />
                             </Form.Item>
                         </Col>
                     </Row>
                     <Form.Item
                         label="Patient Id"
+                        name="patientId"
                         rules={[
                             {
                                 max: 7,
@@ -130,10 +137,11 @@ export default function PatientDetail() {
                             }
                         ]}
                     >
-                        <Input name="patientId" onChange={(e) => onChangeEditDetails(e)} value={editedPatientDetails.patientId} />
+                        <Input name="patientId"  />
                     </Form.Item>
                     <Form.Item
                         label="Patient Email"
+                        name="patientEmail"
                         rules={[
                             {
                                 type: 'email',
@@ -142,10 +150,11 @@ export default function PatientDetail() {
 
                         ]}
                     >
-                        <Input name="patientEmail" onChange={(e) => onChangeEditDetails(e)}value={editedPatientDetails.patientEmail} />
+                        <Input name="patientEmail" />
                     </Form.Item>
                     <Form.Item
                         label="Patient Mobile"
+                        name="patientMobile"
                         rules={[
                             {
                                 message: "Please enter Valid Mobile Number",
@@ -155,7 +164,7 @@ export default function PatientDetail() {
 
                         ]}
                     >
-                        <Input name="patientMobile" onChange={(e) => onChangeEditDetails(e)} value={editedPatientDetails.patientMobile} />
+                        <Input name="patientMobile"  />
                     </Form.Item>
                     <Form.Item
                         name='patientAddress'
@@ -167,7 +176,7 @@ export default function PatientDetail() {
                             },
                         ]}
                     >
-                        <Input name='patientAddress' onChange={(e) => onChangeEditDetails(e)} value={editedPatientDetails.patientAddress} />
+                        <Input name='patientAddress' />
 
                     </Form.Item>
 
@@ -177,7 +186,7 @@ export default function PatientDetail() {
             <div style={{ marginTop: '4rem' }}>
                 <h2 style={Styles.mainHeading}>{PatientDetails?.patientName}</h2>
                 <div style={Styles.patientInfoWrapper}  >
-                    <span>{PatientDetails?.gender } | <PlusCircleFilled /> {PatientDetails?.bloodGroup} | {PatientDetails?.patientAge} YRS</span>
+                    <span>{PatientDetails?.gender} | <PlusCircleFilled /> {PatientDetails?.bloodGroup} | {PatientDetails?.patientAge} YRS</span>
                     <div style={Styles.textAlignLeft} ><span ><IdcardFilled /> {PatientDetails?.patientId}</span></div>
                     <div style={Styles.gmailAndNoWrapper}><span style={Styles.textAlignLeft} ><MailFilled /> {PatientDetails?.patientEmail}</span><span style={Styles.textAlign} ><MobileFilled /> {PatientDetails?.patientMobile}</span></div>
                     <div style={Styles.textAlignLeft}><span ><EnvironmentFilled /> {PatientDetails?.patientAddress}</span></div>

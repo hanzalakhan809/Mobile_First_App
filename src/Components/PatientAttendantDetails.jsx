@@ -1,8 +1,7 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Card, Modal, Form, Input, Row, Col } from 'antd';
-import '../component/MainContainer.css'
+import './MainContainer.css'
 import {
-    RightOutlined,
     EditOutlined,
     MailFilled,
     MobileFilled,
@@ -11,21 +10,22 @@ import {
 
 export default function PatientAttendantDetails() {
 
-    const defaultOtherDetails = { patientAlignment1: '', patientAlignment2: '', doctorName: '', doctorContact: ''}
-    const [eOtherPatientDetails, setEOtherPatientDetails] = useState(defaultOtherDetails);
+    // defaultPatientAttendatDetails is the pre Stored data getting from the APi
+    const defaultPatientAttendatDetails = { PrimaryAttendantName: 'Robert Einstien', relation: 'Son', attendantEmail: 'Attendant@gmail.com', attendantMobile: '8090788567', attendantAddress: '25/990 Sivdi Mumbai-24242' }
+
+
+    const [patientAttendantDetails, setPatientAttendantDetails] = useState(defaultPatientAttendatDetails);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [note, setNote] = useState('');
     const [form] = Form.useForm();
 
 
-    const onFinish = () => {
-        console.log('hi');
+    const onFinish = (values) => {
         setIsModalOpen(false)
+        console.log(values);
+        setPatientAttendantDetails(values)
     }
 
-
     const showModal = () => {
-        form.resetFields();
         setIsModalOpen(true);
     };
     const handleOk = () => {
@@ -34,22 +34,23 @@ export default function PatientAttendantDetails() {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    const onChangeEditDetails = (e) => {
-
-        setEOtherPatientDetails({ ...eOtherPatientDetails, [e.target.name]: e.target.value });
-        console.log({ [e.target.name]: e.target.value });
-
-
-    };
-
 
     return (
         <Card.Grid style={Styles.gridStyle} hoverable={false}  >
             <EditOutlined style={Styles.editIcon} onClick={showModal} />
+            <h2 style={Styles.mainHeading}>Patient Attendant Details</h2>
+            <div style={Styles.patientInfoWrapper}  >
+                <span style={Styles.textAlignLeft}></span>
+                <div style={Styles.textAlignLeft}><span ><b>Primary Attendant:-</b></span></div>
+                <div style={Styles.textAlignLeft} ><span >Name: {patientAttendantDetails?.PrimaryAttendantName}</span></div>
+                <div style={Styles.textAlignLeft} ><span >Relation with Patient: {patientAttendantDetails?.relation}</span></div>
+                <div style={Styles.gmailAndNoWrapper}><span style={Styles.textAlignLeft} ><MailFilled /> {patientAttendantDetails?.attendantEmail}</span><span style={Styles.textAlign} ><MobileFilled /> {patientAttendantDetails?.attendantMobile}</span></div>
+                <div style={Styles.textAlignLeft}><span ><EnvironmentFilled /> {patientAttendantDetails?.attendantAddress}</span></div>
+            </div>
             <Modal title="Edit Primary Attendant Details" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     form={form}
-                    initialValues={{ status: 'OPEN' }}
+                    initialValues={patientAttendantDetails}
                     autoComplete="off"
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 16 }}
@@ -62,7 +63,7 @@ export default function PatientAttendantDetails() {
                         <Col span={12}>
 
                             <Form.Item
-                            label='Name'
+                                label='Name'
                                 name='PrimaryAttendantName'
                                 rules={[
                                     {
@@ -70,13 +71,13 @@ export default function PatientAttendantDetails() {
                                         message: 'Max 15 Character'
                                     }
                                 ]}>
-                                <Input placeholder='Name' name='PrimaryAttendantName' onChange={(e) => onChangeEditDetails(e)} />
+                                <Input placeholder='Name' name='PrimaryAttendantName' />
                             </Form.Item>
                         </Col>
                         <Col span={11}>
 
                             <Form.Item
-                             label='Relation'
+                                label='Relation'
                                 name='relation'
                                 rules={[
                                     {
@@ -84,7 +85,7 @@ export default function PatientAttendantDetails() {
                                         message: 'Max 10 Character'
                                     }
                                 ]}>
-                                <Input placeholder='Relation' name='relation' onChange={(e) => onChangeEditDetails(e)} />
+                                <Input placeholder='Relation' name='relation' />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -99,7 +100,7 @@ export default function PatientAttendantDetails() {
 
                         ]}
                     >
-                        <Input name="attendantEmail" onChange={(e) => onChangeEditDetails(e)} />
+                        <Input name="attendantEmail" />
                     </Form.Item>
                     <Form.Item
                         label="Attendant Mobile"
@@ -113,7 +114,7 @@ export default function PatientAttendantDetails() {
 
                         ]}
                     >
-                        <Input name="attendantMobile" onChange={(e) => onChangeEditDetails(e)} />
+                        <Input name="attendantMobile" />
                     </Form.Item>
                     <Form.Item
                         name='attendantAddress'
@@ -126,24 +127,14 @@ export default function PatientAttendantDetails() {
                             },
                         ]}
                     >
-                        <Input name='attendantAddress' onChange={(e) => onChangeEditDetails(e)} />
+                        <Input name='attendantAddress' />
 
                     </Form.Item>
                 </Form>
 
             </Modal>
-            <h2 style={Styles.mainHeading}>Patient Attendant Details</h2>
-            <div style={Styles.patientInfoWrapper}  >
-                <span style={Styles.textAlignLeft}></span>
-                <div style={Styles.textAlignLeft}><span ><b>Primary Attendant:-</b></span></div>
-                <div style={Styles.textAlignLeft} ><span >Name: Primary Attendant 1</span></div>
-                <div style={Styles.textAlignLeft} ><span >Relation with Patient: Daughter</span></div>
-                <div style={Styles.gmailAndNoWrapper}><span style={Styles.textAlignLeft} ><MailFilled /> Patient@gmail.com</span><span style={Styles.textAlign} ><MobileFilled /> 8090788453</span></div>
-                <div style={Styles.textAlignLeft}><span ><EnvironmentFilled /> Address bolte nothng else</span></div>
-
-
-            </div>
         </Card.Grid>
+
     )
 }
 

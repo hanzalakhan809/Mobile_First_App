@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import MainContainer from './component/MainContainer'
+import MainContainer from './Components/MainContainer'
 // import './App.css'
 
 function App() {

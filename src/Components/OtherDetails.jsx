@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Modal, Form, Input, Row, Col } from 'antd';
-import '../component/MainContainer.css'
+import './MainContainer.css'
 import {
     RightOutlined,
     EditOutlined
@@ -8,18 +8,19 @@ import {
 
 
 export default function OtherDetails() {
-    const defaultOtherDetails = { patientAlignment1: '', patientAlignment2: '', doctorName: '', doctorContact: ''}
-    const [eOtherPatientDetails, setEOtherPatientDetails] = useState(defaultOtherDetails);
+    const defaultOtherDetails = { patientAlignment1: 'Diabetics', patientAlignment2: 'thyroid', doctorName: 'Doctor X', doctorContact: '8090677574'}
+    const [otherPatientDetails, setOtherPatientDetails] = useState(defaultOtherDetails);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [note, setNote] = useState('');
     const [form] = Form.useForm();
 
 
-    const onFinish = () => {
-        console.log('hi');
+    const onFinish = (values) => {
         setIsModalOpen(false)
-    }
+        console.log(values);
+        setOtherPatientDetails(values)
 
+    }
 
     const showModal = () => {
         form.resetFields();
@@ -31,13 +32,7 @@ export default function OtherDetails() {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    const onChangeEditNote = (e) => {
-
-        setEOtherPatientDetails({ ...eOtherPatientDetails, [e.target.name]: e.target.value });
-        console.log({ [e.target.name]: e.target.value });
-
-
-    };
+ 
 
 
     return (
@@ -46,7 +41,7 @@ export default function OtherDetails() {
             <Modal title="Edit Other Detail" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     form={form}
-                    initialValues={{ status: 'OPEN' }}
+                    initialValues={otherPatientDetails}
                     autoComplete="off"
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 16 }}
@@ -66,7 +61,7 @@ export default function OtherDetails() {
                                         message: 'Max 15 Character'
                                     }
                                 ]}>
-                                <Input placeholder='Aliment 1' name='patientAlignment1' onChange={(e) => onChangeEditNote(e)} />
+                                <Input placeholder='Aliment 1' name='patientAlignment1'  />
                             </Form.Item>
                         </Col>
                         <Col span={11}>
@@ -80,7 +75,7 @@ export default function OtherDetails() {
                                         message: 'Max 15 Character'
                                     }
                                 ]}>
-                                <Input placeholder='Aliment 2' name='patientAlignment2' onChange={(e) => onChangeEditNote(e)} />
+                                <Input placeholder='Aliment 2' name='patientAlignment2'  />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -94,7 +89,7 @@ export default function OtherDetails() {
                             }
                         ]}
                     >
-                        <Input name='doctorName' onChange={(e) => onChangeEditNote(e)} />
+                        <Input name='doctorName'  />
                     </Form.Item>
                     <Form.Item
                         label="Doctor Contact"
@@ -108,7 +103,7 @@ export default function OtherDetails() {
 
                         ]}
                     >
-                        <Input name="doctorContact" onChange={(e) => onChangeEditNote(e)} />
+                        <Input name="doctorContact"  />
                     </Form.Item>
 
                 </Form>
@@ -118,10 +113,10 @@ export default function OtherDetails() {
             <div style={Styles.patientInfoWrapper}  >
                 <span style={Styles.textAlignLeft}></span>
                 <div style={Styles.textAlignLeft}><span ><b>Patient Aliment:-</b></span></div>
-                <div style={Styles.textAlignLeft} ><span ><RightOutlined />Diabetics</span></div>
-                <div style={Styles.textAlignLeft} ><span ><RightOutlined />thyroid</span></div>
-                <div style={{ ...Styles.textAlignLeft, ...Styles.extraMargin }} ><span >Consulting Doctor: <b>Doctor X</b></span></div>
-                <div style={Styles.textAlignLeft} ><span >Doctor's Contact #: <b>8090677574</b></span></div>
+                <div style={Styles.textAlignLeft} ><span ><RightOutlined />{otherPatientDetails?.patientAlignment1}</span></div>
+                <div style={Styles.textAlignLeft} ><span ><RightOutlined />{otherPatientDetails?.patientAlignment2}</span></div>
+                <div style={{ ...Styles.textAlignLeft, ...Styles.extraMargin }} ><span >Consulting Doctor: <b>{otherPatientDetails?.doctorName}</b></span></div>
+                <div style={Styles.textAlignLeft} ><span >Doctor's Contact #: <b>{otherPatientDetails?.doctorContact}</b></span></div>
 
 
             </div>

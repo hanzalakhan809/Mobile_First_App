@@ -2,7 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
+
 
 .mainContainer {
     min-width: 400px;
@@ -28,13 +30,18 @@ nav {
 }
 
 footer {
-    position: fixed;
-    min-height: 5rem;
+    min-height: 4rem;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: yellow;
+    background-color: #ffffff;
+    overflow: hidden;
+  position: fixed;
+  bottom: 20px;
+  /* left: 40px; */
+  /* overflow-y: hidden; */
+    
 }
 
 .footer-icon-wrapper {
@@ -42,14 +49,13 @@ footer {
     display: flex;
     flex-direction: column;
     margin: 0 2rem;
+    cursor: pointer;
 
 }
 
 .content-container {
-    /* height: calc(100vh-(5rem)); */
-
     width: 100%;
-    margin-bottom: 20rem;
+    margin-bottom: 4rem;
 
 }
 

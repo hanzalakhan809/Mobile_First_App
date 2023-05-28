@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, Button } from 'antd';
-import '../component/MainContainer.css'
+import './MainContainer.css'
 import {
     MenuOutlined,
     HomeFilled,
@@ -13,9 +13,11 @@ import PatientDetail from './PatientDetail';
 import OtherDetails from './OtherDetails';
 import PatientAttendantDetails from './PatientAttendantDetails';
 import PatientRecord from './PatientRecord';
+import { MyContext } from '../Context/myContext';
 
 export default function MainContainer() {
-
+  
+const context = useContext(MyContext)
 
     return (
         <>
