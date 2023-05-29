@@ -45,7 +45,7 @@ const {fileList,setFileList}=useContext(MyContext);
   
   return (
     <Card.Grid style={Styles.gridStyle} hoverable={false}  >
-      <EditOutlined style={Styles.editIcon} />
+      {/* <EditOutlined style={Styles.editIcon} /> */}
 
       <h2 style={Styles.mainHeading}>Patient Record</h2>
       <Card style={Styles.screenShotsWrapper} >
