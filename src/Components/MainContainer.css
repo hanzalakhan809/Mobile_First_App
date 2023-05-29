@@ -2,13 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
-}
 
+}
 
 .mainContainer {
     min-width: 400px;
     min-height: 100vh;
+
 }
 
 nav {
@@ -37,11 +37,10 @@ footer {
     align-items: center;
     background-color: #ffffff;
     overflow: hidden;
-  position: fixed;
-  bottom: 20px;
-  /* left: 40px; */
-  /* overflow-y: hidden; */
-    
+    position: fixed;
+    bottom: 0px;
+    border-top: 1px solid #d3d3d3;
+
 }
 
 .footer-icon-wrapper {
@@ -55,8 +54,7 @@ footer {
 
 .content-container {
     width: 100%;
-    margin-bottom: 4rem;
-
+    height: 100%;
 }
 
 .card-wrapper {
@@ -75,6 +73,7 @@ footer {
     display: flex;
     height: 4rem;
     width: 100%;
+    margin-bottom: 3rem;
 }
 
 .submit-btn {

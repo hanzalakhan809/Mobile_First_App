@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, Modal, Form, Input, Row, Col, Select } from 'antd';
+import { MyContext } from '../Context/myContext';
 
 import './MainContainer.css'
 import {
@@ -14,17 +15,13 @@ import {
 
 export default function PatientDetail() {
 
-    const defaultPatientDetails = { patientName: 'JamesBond', gender: 'Female', bloodGroup: 'AB+', patientAge: '55', patientId: 'PAA008', patientEmail: 'Patient@gmail.com', patientMobile: '8090788453', patientAddress: '10/223 Gt Road Mumbai-29302' }
+    const { PatientDetails, setPatientDetails } = useContext(MyContext);
 
-    const [PatientDetails, setPatientDetails] = useState(defaultPatientDetails);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
 
-
-
     const onFinish = (values) => {
         setIsModalOpen(false)
-        console.log(values);
         setPatientDetails(values)
     }
 
@@ -42,8 +39,17 @@ export default function PatientDetail() {
 
     return (
         <Card.Grid style={Styles.gridStyle} hoverable={false}  >
-            <Card.Grid hoverable={false} style={Styles.profilePhoto} ></Card.Grid>
+            <Card.Grid hoverable={false} style={Styles.profilePhoto} ><img src="https://pbs.twimg.com/profile_images/895309374121426945/WTrW0-oc_400x400.jpg" alt="" style={Styles.profilePhotoImg} /></Card.Grid>
             <EditOutlined style={Styles.editIcon} onClick={showModal} />
+            <div style={{ marginTop: '4rem' }}>
+                <h2 style={Styles.mainHeading}>{PatientDetails?.patientName}</h2>
+                <div style={Styles.patientInfoWrapper}  >
+                    <span>{PatientDetails?.gender} | <PlusCircleFilled /> {PatientDetails?.bloodGroup} | {PatientDetails?.patientAge} YRS</span>
+                    <div style={Styles.textAlignLeft} ><span ><IdcardFilled /> {PatientDetails?.patientId}</span></div>
+                    <div style={Styles.gmailAndNoWrapper}><span style={Styles.textAlignLeft} ><MailFilled /> {PatientDetails?.patientEmail}</span><span style={Styles.textAlign} ><MobileFilled /> {PatientDetails?.patientMobile}</span></div>
+                    <div style={Styles.textAlignLeft}><span ><EnvironmentFilled /> {PatientDetails?.patientAddress}</span></div>
+                </div>
+            </div>
             <Modal title="Edit Patient Detail" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     form={form}
@@ -70,7 +76,7 @@ export default function PatientDetail() {
 
                     <Row>
                         <Col span={8}
-                           >
+                        >
                             <Form.Item
                                 name='gender'
                             >
@@ -83,15 +89,15 @@ export default function PatientDetail() {
                                     }}
                                     options={[
                                         {
-                                            value: 'male',
+                                            value: 'Male',
                                             label: 'Male',
                                         },
                                         {
-                                            value: 'female',
+                                            value: 'Male',
                                             label: 'Female',
                                         },
                                         {
-                                            value: 'other',
+                                            value: 'Other',
                                             label: 'Other',
                                         },
 
@@ -110,7 +116,7 @@ export default function PatientDetail() {
                                         message: 'Invalid Blood Group'
                                     }
                                 ]}>
-                                <Input placeholder='Blood Group' name='bloodGroup'  />
+                                <Input placeholder='Blood Group' name='bloodGroup' />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -123,7 +129,7 @@ export default function PatientDetail() {
                                         message: 'Invalid Age'
                                     }
                                 ]}>
-                                <Input placeholder='Age' name='patientAge'  />
+                                <Input placeholder='Age' name='patientAge' />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -137,7 +143,7 @@ export default function PatientDetail() {
                             }
                         ]}
                     >
-                        <Input name="patientId"  />
+                        <Input name="patientId" />
                     </Form.Item>
                     <Form.Item
                         label="Patient Email"
@@ -164,7 +170,7 @@ export default function PatientDetail() {
 
                         ]}
                     >
-                        <Input name="patientMobile"  />
+                        <Input name="patientMobile" />
                     </Form.Item>
                     <Form.Item
                         name='patientAddress'
@@ -183,15 +189,6 @@ export default function PatientDetail() {
                 </Form>
 
             </Modal>
-            <div style={{ marginTop: '4rem' }}>
-                <h2 style={Styles.mainHeading}>{PatientDetails?.patientName}</h2>
-                <div style={Styles.patientInfoWrapper}  >
-                    <span>{PatientDetails?.gender} | <PlusCircleFilled /> {PatientDetails?.bloodGroup} | {PatientDetails?.patientAge} YRS</span>
-                    <div style={Styles.textAlignLeft} ><span ><IdcardFilled /> {PatientDetails?.patientId}</span></div>
-                    <div style={Styles.gmailAndNoWrapper}><span style={Styles.textAlignLeft} ><MailFilled /> {PatientDetails?.patientEmail}</span><span style={Styles.textAlign} ><MobileFilled /> {PatientDetails?.patientMobile}</span></div>
-                    <div style={Styles.textAlignLeft}><span ><EnvironmentFilled /> {PatientDetails?.patientAddress}</span></div>
-                </div>
-            </div>
         </Card.Grid>
     )
 }
@@ -201,9 +198,12 @@ const Styles = {
         width: '100%',
         height: '20rem',
         textAlign: 'center',
-        fontSize: '1rem'
+        fontSize: '1rem',
+        border: '1px solid #d3d3d3',
+        margin: '2rem 0'
     },
     profilePhoto: {
+        zIndex: 1000,
         width: '10rem',
         height: '10rem',
         borderRadius: '0.7rem',
@@ -211,7 +211,16 @@ const Styles = {
         justifyContent: 'center',
         top: '8%',
         left: '50%',
-        transform: 'translate(-50%, -50%)'
+        transform: 'translate(-50%, -50%)',
+        fontSize: '1rem',
+        border: '1px solid #d3d3d3',
+        padding: 0,
+
+    },
+    profilePhotoImg: {
+        width: '100%',
+        height: '100%',
+        borderRadius: '0.7rem'
     },
     patientInfoWrapper: {
         maxWidth: '500px',

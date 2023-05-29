@@ -1,23 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, Modal, Form, Input, Row, Col } from 'antd';
 import './MainContainer.css'
 import {
     RightOutlined,
     EditOutlined
 } from '@ant-design/icons';
+import { MyContext } from '../Context/myContext';
 
 
 export default function OtherDetails() {
-    const defaultOtherDetails = { patientAlignment1: 'Diabetics', patientAlignment2: 'thyroid', doctorName: 'Doctor X', doctorContact: '8090677574'}
-    const [otherPatientDetails, setOtherPatientDetails] = useState(defaultOtherDetails);
+    
+    const{otherPatientDetails,setOtherPatientDetails} =useContext(MyContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [note, setNote] = useState('');
     const [form] = Form.useForm();
-
 
     const onFinish = (values) => {
         setIsModalOpen(false)
-        console.log(values);
         setOtherPatientDetails(values)
 
     }
@@ -32,12 +30,24 @@ export default function OtherDetails() {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
- 
+
 
 
     return (
         <Card.Grid style={Styles.gridStyle} hoverable={false}  >
             <EditOutlined style={Styles.editIcon} onClick={showModal} />
+            <h2 style={Styles.mainHeading}>Other Details</h2>
+            <div style={Styles.patientInfoWrapper}  >
+                <span style={Styles.textAlignLeft}></span>
+                <div style={Styles.textAlignLeft}><span ><b>Patient Aliment:-</b></span></div>
+                <div style={Styles.textAlignLeft} ><span ><RightOutlined />{otherPatientDetails?.patientAlignment1}</span></div>
+                <div style={Styles.textAlignLeft} ><span ><RightOutlined />{otherPatientDetails?.patientAlignment2}</span></div>
+                <div style={{ ...Styles.textAlignLeft, ...Styles.extraMargin }} ><span >Consulting Doctor: <b>{otherPatientDetails?.doctorName}</b></span></div>
+                <div style={Styles.textAlignLeft} ><span >Doctor's Contact #: <b>{otherPatientDetails?.doctorContact}</b></span>
+                </div>
+            </div>
+
+
             <Modal title="Edit Other Detail" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     form={form}
@@ -53,7 +63,7 @@ export default function OtherDetails() {
                         <Col span={12}>
 
                             <Form.Item
-                            label='Patient'
+                                label='Patient'
                                 name='patientAlignment1'
                                 rules={[
                                     {
@@ -61,13 +71,13 @@ export default function OtherDetails() {
                                         message: 'Max 15 Character'
                                     }
                                 ]}>
-                                <Input placeholder='Aliment 1' name='patientAlignment1'  />
+                                <Input placeholder='Aliment 1' name='patientAlignment1' />
                             </Form.Item>
                         </Col>
                         <Col span={11}>
 
                             <Form.Item
-                             label='Patient'
+                                label='Patient'
                                 name='patientAlignment2'
                                 rules={[
                                     {
@@ -75,7 +85,7 @@ export default function OtherDetails() {
                                         message: 'Max 15 Character'
                                     }
                                 ]}>
-                                <Input placeholder='Aliment 2' name='patientAlignment2'  />
+                                <Input placeholder='Aliment 2' name='patientAlignment2' />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -89,7 +99,7 @@ export default function OtherDetails() {
                             }
                         ]}
                     >
-                        <Input name='doctorName'  />
+                        <Input name='doctorName' />
                     </Form.Item>
                     <Form.Item
                         label="Doctor Contact"
@@ -103,23 +113,12 @@ export default function OtherDetails() {
 
                         ]}
                     >
-                        <Input name="doctorContact"  />
+                        <Input name="doctorContact" />
                     </Form.Item>
 
                 </Form>
 
             </Modal>
-            <h2 style={Styles.mainHeading}>Other Details</h2>
-            <div style={Styles.patientInfoWrapper}  >
-                <span style={Styles.textAlignLeft}></span>
-                <div style={Styles.textAlignLeft}><span ><b>Patient Aliment:-</b></span></div>
-                <div style={Styles.textAlignLeft} ><span ><RightOutlined />{otherPatientDetails?.patientAlignment1}</span></div>
-                <div style={Styles.textAlignLeft} ><span ><RightOutlined />{otherPatientDetails?.patientAlignment2}</span></div>
-                <div style={{ ...Styles.textAlignLeft, ...Styles.extraMargin }} ><span >Consulting Doctor: <b>{otherPatientDetails?.doctorName}</b></span></div>
-                <div style={Styles.textAlignLeft} ><span >Doctor's Contact #: <b>{otherPatientDetails?.doctorContact}</b></span></div>
-
-
-            </div>
         </Card.Grid>
     )
 }
@@ -129,7 +128,9 @@ const Styles = {
         width: '100%',
         height: '20rem',
         textAlign: 'center',
-        fontSize: '1rem'
+        fontSize: '1rem',
+        border: '1px solid #d3d3d3',
+        margin: '2rem 0'
     },
 
     patientInfoWrapper: {

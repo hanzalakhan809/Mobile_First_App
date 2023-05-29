@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, Modal, Form, Input, Row, Col } from 'antd';
 import './MainContainer.css'
 import {
@@ -7,21 +7,17 @@ import {
     MobileFilled,
     EnvironmentFilled
 } from '@ant-design/icons';
+import { MyContext } from '../Context/myContext';
 
 export default function PatientAttendantDetails() {
 
-    // defaultPatientAttendatDetails is the pre Stored data getting from the APi
-    const defaultPatientAttendatDetails = { PrimaryAttendantName: 'Robert Einstien', relation: 'Son', attendantEmail: 'Attendant@gmail.com', attendantMobile: '8090788567', attendantAddress: '25/990 Sivdi Mumbai-24242' }
-
-
-    const [patientAttendantDetails, setPatientAttendantDetails] = useState(defaultPatientAttendatDetails);
+    const { patientAttendantDetails, setPatientAttendantDetails } = useContext(MyContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
 
 
     const onFinish = (values) => {
         setIsModalOpen(false)
-        console.log(values);
         setPatientAttendantDetails(values)
     }
 
@@ -143,7 +139,9 @@ const Styles = {
         width: '100%',
         height: '20rem',
         textAlign: 'center',
-        fontSize: '1rem'
+        fontSize: '1rem',
+        border: '1px solid #d3d3d3',
+        margin: '2rem 0'
     },
     patientInfoWrapper: {
         maxWidth: '500px',
